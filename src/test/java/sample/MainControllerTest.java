@@ -3,17 +3,15 @@ package sample;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import sample.web.Foo;
 import sample.web.MyPrototypeBean;
 import sample.web.MyRequestBean;
 import sample.web.MySessionBean;
@@ -50,12 +48,12 @@ public class MainControllerTest {
     MockHttpSession session;
 
     @Test
-    public void testName() throws Exception {
+    public void shouldAutowireBeans() throws Exception {
 
         assertThat(myPrototypeBean).isNotNull();
         assertThat(mySessionBean).isNotNull();
         assertThat(myRequestBean).isNotNull();
-        assertThat(myRequestBean.random()).isNotNull();
+        assertThat(foo).isNotNull();
 
     }
 

@@ -1,6 +1,7 @@
 package sample;
 
 import org.springframework.web.context.WebApplicationContext;
+import sample.web.Foo;
 import sample.web.MyRequestBean;
 import sample.web.MySessionBean;
 import sample.web.MyPrototypeBean;
@@ -8,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.config.Scope;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.GenericApplicationContext;
@@ -24,31 +24,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Mariusz Smykula
  */
-    @RunWith(SpringJUnit4ClassRunner.class)
-    @ContextConfiguration(classes = MainControllerWithListenerTest.TestConfig.class)
-    @TestExecutionListeners({MainControllerWithListenerTest.WebContextTestExecutionListener.class,
-            DependencyInjectionTestExecutionListener.class,
-            DirtiesContextTestExecutionListener.class})
-    public class MainControllerWithListenerTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = MainControllerWithListenerTest.TestConfig.class)
+@TestExecutionListeners({MainControllerWithListenerTest.WebContextTestExecutionListener.class,
+        DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class})
+public class MainControllerWithListenerTest {
 
-        @Autowired
-        MyPrototypeBean myPrototypeBean;
+    @Autowired
+    MyPrototypeBean myPrototypeBean;
 
-        @Autowired
-        MySessionBean mySessionBean;
+    @Autowired
+    MySessionBean mySessionBean;
 
-        @Autowired
-        MyRequestBean myRequestBean;
+    @Autowired
+    MyRequestBean myRequestBean;
 
-        @Test
-        public void testName() throws Exception {
+    @Autowired
+    Foo foo;
 
-            assertThat(myPrototypeBean).isNotNull();
-            assertThat(mySessionBean).isNotNull();
-            assertThat(myRequestBean).isNotNull();
-            assertThat(myRequestBean.random()).isNotNull();
+    @Test
+    public void shouldAutowireBeans() throws Exception {
 
-        }
+        assertThat(myPrototypeBean).isNotNull();
+        assertThat(mySessionBean).isNotNull();
+        assertThat(myRequestBean).isNotNull();
+        assertThat(foo).isNotNull();
+
+    }
 
     public static class WebContextTestExecutionListener extends AbstractTestExecutionListener {
         @Override
@@ -64,7 +67,8 @@ import static org.assertj.core.api.Assertions.assertThat;
         }
     }
 
-        @Configuration
-        @ComponentScan("sample.web")
-        public static class TestConfig { }
+    @Configuration
+    @ComponentScan("sample.web")
+    public static class TestConfig {
     }
+}

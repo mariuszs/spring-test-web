@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.SimpleThreadScope;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.context.WebApplicationContext;
+import sample.web.Foo;
 import sample.web.MyRequestBean;
 import sample.web.MySessionBean;
 import sample.web.MyPrototypeBean;
@@ -34,13 +36,16 @@ public class MainControllerWithCustomScopesTest {
     @Autowired
     MyRequestBean myRequestBean;
 
+    @Autowired
+    Foo foo;
+
     @Test
-    public void testName() throws Exception {
+    public void shouldAutowireBeans() throws Exception {
 
         assertThat(myPrototypeBean).isNotNull();
         assertThat(mySessionBean).isNotNull();
         assertThat(myRequestBean).isNotNull();
-        assertThat(myRequestBean.random()).isNotNull();
+        assertThat(foo).isNotNull();
 
     }
 
@@ -52,8 +57,10 @@ public class MainControllerWithCustomScopesTest {
             CustomScopeConfigurer scopeConfigurer = new CustomScopeConfigurer();
 
             HashMap<String, Object> scopes = new HashMap<String, Object>();
-            scopes.put("request", new SimpleThreadScope());
-            scopes.put("session", new SimpleThreadScope());
+            scopes.put(WebApplicationContext.SCOPE_REQUEST,
+                    new SimpleThreadScope());
+            scopes.put(WebApplicationContext.SCOPE_SESSION,
+                    new SimpleThreadScope());
             scopeConfigurer.setScopes(scopes);
 
             return scopeConfigurer;
