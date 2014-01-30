@@ -1,5 +1,6 @@
 package sample;
 
+import org.springframework.web.context.WebApplicationContext;
 import sample.web.MyRequestBean;
 import sample.web.MySessionBean;
 import sample.web.MyPrototypeBean;
@@ -23,52 +24,47 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Mariusz Smykula
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = MainControllerWithListenerTest.TestConfig.class)
-@TestExecutionListeners({MainControllerWithListenerTest.WebContextTestExecutionListener.class,
-        DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class})
-public class MainControllerWithListenerTest {
+    @RunWith(SpringJUnit4ClassRunner.class)
+    @ContextConfiguration(classes = MainControllerWithListenerTest.TestConfig.class)
+    @TestExecutionListeners({MainControllerWithListenerTest.WebContextTestExecutionListener.class,
+            DependencyInjectionTestExecutionListener.class,
+            DirtiesContextTestExecutionListener.class})
+    public class MainControllerWithListenerTest {
 
-    @Autowired
-    MyPrototypeBean myPrototypeBean;
+        @Autowired
+        MyPrototypeBean myPrototypeBean;
 
-    @Autowired
-    MySessionBean mySessionBean;
+        @Autowired
+        MySessionBean mySessionBean;
 
-    @Autowired
-    MyRequestBean myRequestBean;
+        @Autowired
+        MyRequestBean myRequestBean;
 
-    @Test
-    public void testName() throws Exception {
+        @Test
+        public void testName() throws Exception {
 
-        assertThat(myPrototypeBean).isNotNull();
-        assertThat(mySessionBean).isNotNull();
-        assertThat(myRequestBean).isNotNull();
-        assertThat(myRequestBean.random()).isNotNull();
+            assertThat(myPrototypeBean).isNotNull();
+            assertThat(mySessionBean).isNotNull();
+            assertThat(myRequestBean).isNotNull();
+            assertThat(myRequestBean.random()).isNotNull();
 
-    }
+        }
 
     public static class WebContextTestExecutionListener extends AbstractTestExecutionListener {
         @Override
-        public void prepareTestInstance(TestContext testContext) throws Exception {
-
+        public void prepareTestInstance(TestContext testContext) {
             if (testContext.getApplicationContext() instanceof GenericApplicationContext) {
                 GenericApplicationContext context = (GenericApplicationContext) testContext.getApplicationContext();
                 ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-                Scope requestScope = new SimpleThreadScope();
-                beanFactory.registerScope("request", requestScope);
-                Scope sessionScope = new SimpleThreadScope();
-                beanFactory.registerScope("session", sessionScope);
+                beanFactory.registerScope(WebApplicationContext.SCOPE_REQUEST,
+                        new SimpleThreadScope());
+                beanFactory.registerScope(WebApplicationContext.SCOPE_SESSION,
+                        new SimpleThreadScope());
             }
         }
     }
 
-    @Configuration
-    @ComponentScan("sample.web")
-    public static class TestConfig {
-
+        @Configuration
+        @ComponentScan("sample.web")
+        public static class TestConfig { }
     }
-
-
-}

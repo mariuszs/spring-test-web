@@ -47,19 +47,17 @@ public class MainControllerWithCustomScopesTest {
     @Configuration
     @ComponentScan("sample.web")
     public static class TestConfig {
-
         @Bean
         public CustomScopeConfigurer customScopeConfigurer(){
-            CustomScopeConfigurer customScopeConfigurer = new CustomScopeConfigurer();
+            CustomScopeConfigurer scopeConfigurer = new CustomScopeConfigurer();
 
             HashMap<String, Object> scopes = new HashMap<String, Object>();
             scopes.put("request", new SimpleThreadScope());
             scopes.put("session", new SimpleThreadScope());
-            customScopeConfigurer.setScopes(scopes);
+            scopeConfigurer.setScopes(scopes);
 
-            return customScopeConfigurer;
+            return scopeConfigurer;
         }
-
     }
 
 
