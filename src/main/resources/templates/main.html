@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Session and request scope beans</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p th:text="'Hello, ' + ${name} + '!'" />
+<hr/>
+<p th:text = "'Foo (session): ' + ${foo} "/>
+<p th:text = "'Bar (request): ' + ${bar} "/>
+</body>
+</html>
