@@ -1,8 +1,8 @@
 package sample;
 
-import sample.web.BarRequest;
-import sample.web.FooSession;
-import sample.web.NormalBean;
+import sample.web.MyRequestBean;
+import sample.web.MySessionBean;
+import sample.web.MyPrototypeBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +24,28 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Mariusz Smykula
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = MainControllerTest.TestConfig.class)
-@TestExecutionListeners({MainControllerTest.WebContextTestExecutionListener.class,
+@ContextConfiguration(classes = MainControllerWithListenerTest.TestConfig.class)
+@TestExecutionListeners({MainControllerWithListenerTest.WebContextTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class})
-public class MainControllerTest {
+public class MainControllerWithListenerTest {
 
     @Autowired
-    NormalBean normalBean;
+    MyPrototypeBean myPrototypeBean;
 
     @Autowired
-    FooSession fooSession;
+    MySessionBean mySessionBean;
 
     @Autowired
-    BarRequest barRequest;
+    MyRequestBean myRequestBean;
 
     @Test
     public void testName() throws Exception {
 
-        assertThat(normalBean).isNotNull();
-        assertThat(fooSession).isNotNull();
-        assertThat(barRequest).isNotNull();
-        assertThat(barRequest.random()).isNotNull();
+        assertThat(myPrototypeBean).isNotNull();
+        assertThat(mySessionBean).isNotNull();
+        assertThat(myRequestBean).isNotNull();
+        assertThat(myRequestBean.random()).isNotNull();
 
     }
 

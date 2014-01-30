@@ -13,9 +13,9 @@ import java.util.Random;
  */
 @Scope(value = "request")
 @Component
-public class BarRequest {
+public class MyRequestBean {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BarRequest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MyRequestBean.class);
 
     int random;
 

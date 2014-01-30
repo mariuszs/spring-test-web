@@ -11,17 +11,17 @@ import java.util.Random;
 /**
  * @author Mariusz Smykula
  */
-@Scope(value = "session")
+@Scope(value = "prototype")
 @Component
-public class FooSession {
+public class MyPrototypeBean {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FooSession.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MyPrototypeBean.class);
 
     private int value;
 
     @PostConstruct
     public void started() {
-        LOG.info("Session bean created!");
+        LOG.info("Prototype bean created!");
 
         value = new Random().nextInt();
     }

@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Scope("request")
 public class MainController {
 
-    private final BarRequest bar;
+    private final MyRequestBean bar;
 
-    private final FooSession foo;
+    private final MySessionBean foo;
 
     @Autowired
-    public MainController(BarRequest bar, FooSession foo) {
+    public MainController(MyRequestBean bar, MySessionBean foo) {
         this.bar = bar;
         this.foo = foo;
     }
