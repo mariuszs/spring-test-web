@@ -1,4 +1,4 @@
-# spring-test-web
+# request scoped beans in spring testing
 
 Sample project created as example answer to stackoverflow question:
 
